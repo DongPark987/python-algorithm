@@ -1,6 +1,6 @@
 import sys
 
-# input = sys.stdin.readline
+input = sys.stdin.readline
 # print = sys.stdout.write
 N, M = map(int, (input().rstrip().split()))
 arr = list(map(int, input().rstrip().split()))
