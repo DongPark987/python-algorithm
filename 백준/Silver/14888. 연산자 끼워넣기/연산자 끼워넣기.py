@@ -20,11 +20,11 @@ for operList in permutations(operList, N-1):
     for j in range(1, N):
         if operList[j-1] == 0:
             mySum += arr[j]
-        if operList[j-1] == 1:
+        elif operList[j-1] == 1:
             mySum -= arr[j]
-        if operList[j-1] == 2:
+        elif operList[j-1] == 2:
             mySum *= arr[j]
-        if operList[j-1] == 3:
+        elif operList[j-1] == 3:
             if (mySum < 0):
                 mySum = -(abs(mySum)//arr[j])
             else:
