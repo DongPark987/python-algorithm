@@ -1,5 +1,5 @@
 import sys
-
+sys.setrecursionlimit(10000)
 
 input = sys.stdin.readline
 global L
@@ -10,22 +10,22 @@ hunter = []
 animal = []
 ans = 0
 
-hunter = list(map(int, input().split()))
+hunter = list(map(int, input().rstrip().split()))
 hunter.sort()
 for _ in range(N):
-    animal.append(list(map(int, input().split())))
+    animal.append(list(map(int, input().rstrip().split())))
 
 
 # print(animal)
 # print(hunter)
 
 def search(left, right, x, y):
-    if (left > right):
+    if left > right:
         return
     global ans, hunter, animal, L
     mid = (left + right) // 2
     distance = abs(hunter[mid] - x) + y
-    if (distance <= L):
+    if distance <= L:
         ans += 1
         return
     else:
