@@ -1,7 +1,10 @@
 dnum = [True for i in range(10002)]
+dnumList = []
 
-for i in range(2, 200):
+# 에라토스테네스의 체를 이용한 소수 배열 구하기
+for i in range(2, 10001):
     if dnum[i]:
+        dnumList.append(i)
         cnt = 2
         while (True):
             tmp = i * cnt
@@ -12,17 +15,15 @@ for i in range(2, 200):
                 break
 
 T = int(input())
-
 for i in range(T):
     n = int(input())
     a = 0
-    b = 100000
-    for j in range(n):
-        if j >= n:
+    b = 1000001
+    for j in dnumList:
+        if j > n - j:
             break
-        if dnum[j]:
-            if dnum[n - j]:
-                if abs(a - b) > abs(j * 2 - n):
-                    a = j
-                    b = n - j
+        if dnum[n - j]:
+            if abs(a - b) > abs(j - (n - j)):
+                a = j
+            b = n - j
     print(a, b)
