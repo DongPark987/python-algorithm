@@ -1,36 +1,49 @@
-from itertools import combinations, permutations
-import sys
-input = sys.stdin.readline
-# print = sys.stdout.write
-N = int(input().rstrip())
+import math
 
-arr = list(map(int, input().rstrip().split()))
-arr2 = list(map(int, input().rstrip().split()))
-minAns = 100000000000
-maxAns = -100000000000
+N = input()
 
-operList = []
-for i in range(len(arr2)):
-    for j in range(arr2[i]):
-        operList.append(i)
+arr = list(map(int, input().split()))
+operator = list(map(int, input().split()))
 
-# print(operList)
-for operList in permutations(operList, N-1):
-    mySum = arr[0]
-    for j in range(1, N):
-        if operList[j-1] == 0:
-            mySum += arr[j]
-        elif operList[j-1] == 1:
-            mySum -= arr[j]
-        elif operList[j-1] == 2:
-            mySum *= arr[j]
-        elif operList[j-1] == 3:
-            if (mySum < 0):
-                mySum = -(abs(mySum)//arr[j])
-            else:
-                mySum //= arr[j]
-    minAns = min(minAns, mySum)
-    maxAns = max(maxAns, mySum)
+# print(arr)
+# print(operator)
 
-print(maxAns)
-print(minAns)
+Max = -math.inf
+Min = math.inf
+end = len(arr)
+
+
+def rec(loc, Sum):
+    global end, Max, Min, operator
+    if loc == end:
+        Max = max(Max, Sum)
+        Min = min(Min, Sum)
+        return
+
+    if operator[0] != 0:
+        operator[0] -= 1
+        rec(loc + 1, Sum + arr[loc])
+        operator[0] += 1
+
+    if operator[1] != 0:
+        operator[1] -= 1
+        rec(loc + 1, Sum - arr[loc])
+        operator[1] += 1
+
+    if operator[2] != 0:
+        operator[2] -= 1
+        rec(loc + 1, Sum * arr[loc])
+        operator[2] += 1
+
+    if operator[3] != 0:
+        operator[3] -= 1
+        if Sum < 0:
+            rec(loc + 1, -(abs(Sum) // arr[loc]))
+        else:
+            rec(loc + 1, Sum // arr[loc])
+        operator[3] += 1
+
+
+rec(1, arr[0])
+print(Max)
+print(Min)
