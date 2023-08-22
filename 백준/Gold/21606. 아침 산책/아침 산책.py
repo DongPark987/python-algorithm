@@ -36,6 +36,9 @@ for i in range(N):
                 visit[i] = True
                 MainVisit[i] = True
                 if color[i] == '1':
+                    for j in edge[i]:
+                        if color[j] == '1':
+                            ans+=1
                     cnt += 1
                 else:
                     q.append(i)
