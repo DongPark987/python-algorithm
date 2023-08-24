@@ -1,42 +1,53 @@
-import sys
-from collections import deque
-import math
 import heapq
+import sys
 
 input = sys.stdin.readline
 
-N, M = map(int, input().split())
+def dijkstra(start, end):
+    queue = []
+    heapq.heappush(queue, (0, start))
+    while queue:
+        dist, now = heapq.heappop(queue)  # 최대힙
+        dist = -1 * dist
 
-edge = [{} for _ in range(N + 1)]
-visit = [0 for _ in range(N + 1)]
+        if now == end:
+            print(dist)
+            break
+
+        if distance[now] > dist: # 이미 최대 중량인경우
+            continue
+
+        for i in graph[now]: # 정렬된 상태이므로 높은 중량부터 탐색이 됨.
+            if dist == 0: # dist가 0인게 문제여...
+                distance[i[1]] = i[0]
+                heapq.heappush(queue, (-distance[i[1]], i[1]))
+            # 기존에 저장된 값이 dist(이전 도시에서의 최대중량)와 현재 다리 최대 중량 보다 작다면...
+            # 이렇게 한 이유는 다리가 중복 연결되어있는 가능성이 있기 때문
+            elif distance[i[1]] < i[0] and distance[i[1]] < dist:
+                distance[i[1]] = min(dist, i[0]) # ✅ 이전도시 최대 중량과 현재 다리 최대 중량 중 작은 값을 저장
+                heapq.heappush(queue, (-distance[i[1]], i[1]))
 
 
-for _ in range(M):
-    a, b, c = map(int, input().split())
-    if edge[a].get(b) is None:
-        edge[a][b] = c
-        edge[b][a] = c
-    else:
-        if edge[a][b] < c:
-            edge[a][b] = c
-            edge[b][a] = c
 
-start, end = map(int, input().split())
+if __name__ == "__main__":
+    n, m = map(int, input().split())
+    graph = [[] for _ in range(n + 1)]
+    for _ in range(m):
+        a, b, c = map(int, input().split())
+        graph[a].append((c, b))
+        graph[b].append((c, a))
+        # if graph[a].get(b) is None:
+        #     graph[a][b] = c
+        #     graph[b][a] = c
+        # else:
+        #     if graph[a][b] < c:
+        #         graph[a][b] = c
+        #         graph[b][a] = c
 
-hq = []
-heapq.heappush(hq, (-math.inf, start))
-# q.append(start)
-visit[start] = math.inf
+    for i in range(1, n + 1):
+        graph[i].sort(reverse=True)
 
-while hq:
-    hcost, cur = heapq.heappop(hq)
-    for Next, Cost in edge[cur].items():
-        if visit[Next] < visit[cur] and visit[Next] < Cost:
-            if visit[cur] > Cost:
-                visit[Next] = Cost
-                heapq.heappush(hq, (-Cost, Next))
-            else:
-                visit[Next] = visit[cur]
-                heapq.heappush(hq, (-visit[cur], Next))
+    distance = [0] * (n + 1)
+    start, end = map(int, input().split())
 
-print(visit[end])
+    dijkstra(start, end)
