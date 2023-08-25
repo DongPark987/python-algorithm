@@ -12,12 +12,7 @@ for _ in range(a):
     dp[0] = 1
 
     for coin in arr:
-        for Won in range(N, 0, -1):
-            for i in range(1, 10000):
-                # print("coin: ", coin[0] * i)
-                if coin * i > Won:
-                    break
-                if Won - coin * i >= 0:
-                    dp[Won] += dp[Won - coin * i]
-        # print(dp)
+        for i in range(coin, N+1):
+            dp[i] += dp[i - coin]
+
     print(dp[N])
