@@ -1,18 +1,16 @@
-N, K = map(int, input().split())
+import sys
 
-arr = []
+input = sys.stdin.readline
 
-for _ in range(N):
-    arr.append(list(map(int, input().split())))
+N, K = map(int, input().rstrip().split())
+items = [list(map(int, input().rstrip().split())) for _ in range(N)]
 
-# print(arr)
+dp = [0 for _ in range(K + 1)]
 
-dp = [0] * (K + 1)
-
-for w, v in arr:
-    for weight in range(K, 0, -1):
-        if weight < w: break
-        dp[weight] = max(dp[weight], dp[weight - w] + v)
-
-# print(dp)
+for item in items:
+    for weight in range(K, -1, -1):
+        if weight - item[0] >= 0:
+            dp[weight] = max(dp[weight], item[1] + dp[weight - item[0]])
+        else:
+            break
 print(dp[K])
