@@ -5,6 +5,8 @@ arr = []
 for _ in range(N):
     arr.append(list(map(int, input().split())))
 
+# print(arr)
+
 dp = [0] * (K + 1)
 
 for w, v in arr:
@@ -12,4 +14,5 @@ for w, v in arr:
         if weight < w: break
         dp[weight] = max(dp[weight], dp[weight - w] + v)
 
+# print(dp)
 print(dp[K])
