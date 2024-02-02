@@ -1,11 +1,10 @@
 import sys
 
-
-
+N, M = map(int, sys.stdin.readline().split())
+lesson = list(map(int, sys.stdin.readline().split()))
 
 def solve():
-    N, M = map(int, sys.stdin.readline().split())
-    lesson = list(map(int, sys.stdin.readline().split()))
+
     left, right = max(lesson), sum(lesson)
     ans = 0
     while left <= right:
